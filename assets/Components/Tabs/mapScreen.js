@@ -164,17 +164,21 @@ export function MapScreen(){
         return;
       }
 
-      let location = await Location.getCurrentPositionAsync({})
-      setUserLocation(location)
-
-      // Get List of Nearest Bus Stops
-      const nearestStops = await findNearestBusStops(userLocation)
-      setNearbyStops(nearestStops)
+        // Get List of Nearest Bus Stops
+        const nearestStops = await findNearestBusStops(location)
+        setNearbyStops(nearestStops)
 
       // Get Bus Arrival Info for Nearest Bus Stops
       const stopCodeWBusArrival = await getBusArrivalForNearestStops(nearestStops)
       setNearbyStopsArrival(stopCodeWBusArrival)
     })()
+  }, [])
+
+  useEffect(() => {
+    setInterval(async () => {
+        let location = await Location.getCurrentPositionAsync({})
+        setUserLocation(location);
+      }, 20000)
   }, [])
 
     return (

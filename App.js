@@ -11,8 +11,11 @@ import { RouteHandler } from './assets/Components/navigation';
 export default function App() {
   const triggerDist = 500
 
+  // States
   const [userLocation, setUserLocation] = useState(null)
   const [errorMsg, setErrorMsg] = useState(null)
+  const [nearbyStops, setNearbyStops] = useState(null)
+  const [nearbyStopsArrival, setNearbyStopsArrival] = useState(null)
 
   async function findNearestBusStops(currentLocation) {
     const data = await AsyncStorage.getItem("BusStops")
@@ -30,6 +33,12 @@ export default function App() {
         nearbyStops.push(updatedStop)
       }
     }
+
+    return nearbyStops
+  }
+
+  async function getBusArrivalForNearestStops(busStops) {
+    console.log(busStops)
   }
 
   useEffect(() => {
@@ -64,11 +73,19 @@ export default function App() {
 
       let location = await Location.getCurrentPositionAsync({})
       setUserLocation(location)
-      await findNearestBusStops(location)
+
+      // Get List of Nearest Bus Stops
+      const nearestStops = await findNearestBusStops(location)
+      setNearbyStops(nearestStops)
+
+      // Get Bus Arrival Info for Nearest Bus Stops
+      await getBusArrivalForNearestStops(nearestStops)
     })()
   })
 
   return (
     RouteHandler()
-  )
+  );
 }
+
+

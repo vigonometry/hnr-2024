@@ -3,7 +3,8 @@ import { Button, StyleSheet, View } from "react-native"
 import { ActivityIndicator, Text, List } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import MapView from 'react-native-maps';
+import { MapScreen } from "./Bottom tabs/mapScreen";
+import { SettingsScreen } from "./Bottom tabs/settingsScreen";
 import BottomSheet from '@gorhom/bottom-sheet';
 import { useRef, useMemo , useCallback, useEffect, useState } from 'react'
 import axios from 'axios';

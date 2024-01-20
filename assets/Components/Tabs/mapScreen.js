@@ -12,7 +12,7 @@ import { API_KEY } from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from "expo-location";
 import { getDistance } from "geolib";
-import MapView from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import { useNavigation } from "@react-navigation/native";
 
 export function MapScreen() {
@@ -196,7 +196,8 @@ export function MapScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar hidden={true} />
-      <MapView width="100%" height="100%" />
+
+      <MapView width="100%" height="100%" showsUserLocation />
       <BottomSheet
         ref={bottomSheetRef}
         index={1}

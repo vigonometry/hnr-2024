@@ -3,10 +3,10 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import * as Location from 'expo-location'
 import { getDistance } from 'geolib';
 import { API_KEY } from "@env"
+import { RouteHandler } from './assets/Components/navigation';
 
 export default function App() {
   const triggerDist = 500
@@ -108,19 +108,8 @@ export default function App() {
   }, [])
 
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-      {errorMsg != null ? <Text>{errorMsg}</Text> : <></>}
-    </View>
+    RouteHandler()
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1, 
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+

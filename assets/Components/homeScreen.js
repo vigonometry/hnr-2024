@@ -7,6 +7,8 @@ export function HomeScreen({navigation}){
         <SafeAreaView style={styles.container}>
             <StatusBar 
             hidden= {true}/>
+            
+            <Button title="Go profile" onPress={() => navigation.navigate("profile")}/>
         </SafeAreaView>
     );
 }
@@ -14,7 +16,7 @@ export function HomeScreen({navigation}){
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: 'dodgeblue',
+      backgroundColor: 'dodgerblue',
       alignItems: 'center',
       justifyContent: 'center',
     },

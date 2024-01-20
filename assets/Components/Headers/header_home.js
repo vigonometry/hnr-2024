@@ -9,7 +9,7 @@ export function CustomHomeHeader() {
         <TouchableOpacity onPress={() => navigation.navigate("profile")}>
             <Image 
             style= {{width: 50, height: 50}}
-            source={{uri: "asset:/icon.png"}}
+            source={{uri: "assets/account.png"}}
             />
         </TouchableOpacity>
     )

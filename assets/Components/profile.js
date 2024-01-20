@@ -1,7 +1,7 @@
 import { Button, Image, StatusBar, StyleSheet, Text, TextInput, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export function ProfileScreen({navigation}){
+export function ProfileScreen(){
     return (
         <SafeAreaView style={styles.container}>
 
@@ -15,10 +15,18 @@ export function ProfileScreen({navigation}){
             />
             <TextInput
               defaultValue="Hello"
-              st
+              style={{
+    
+                borderColor: "black",
+                borderWidth: 1,
+              }}
             />
             <TextInput
               defaultValue="World"
+              style={{
+                borderColor: "black",
+                borderWidth: 1,
+              }}
             />
 
 
@@ -29,9 +37,9 @@ export function ProfileScreen({navigation}){
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: 'dodgeblue',
+      backgroundColor: 'white',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: "space-evenly",
     },
 });
   

@@ -5,6 +5,7 @@ import { ProfileScreen } from './profile';
 import { CustomHomeHeader } from './Headers/header_home';
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { View } from 'react-native';
+import { GameScreen } from './gameScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,7 +27,10 @@ export const RouteHandler = () => {
               name='profile'
               component={ProfileScreen}
               />
-              
+
+              <Stack.Screen 
+              name='game'
+              component={GameScreen}/>
             </Stack.Navigator>
           </NavigationContainer>
         </View>

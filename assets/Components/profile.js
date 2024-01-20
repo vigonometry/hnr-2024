@@ -1,45 +1,57 @@
-import { Button, Image, StatusBar, StyleSheet, Text, TextInput, View } from "react-native"
+import { Avatar } from "@rneui/base/dist/Avatar/Avatar";
+import {
+  Button,
+  Image,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export function ProfileScreen(){
-    return (
-        <SafeAreaView style={styles.container}>
+export function ProfileScreen() {
+  return (
+    <SafeAreaView style={styles.container}>
+      <StatusBar hidden={true} />
 
-            <StatusBar 
-            hidden= {true}/>
+      <Avatar
+        size={200}
+        rounded
+        source={{ uri: "https://randomuser.me/api/portraits/men/36.jpg" }}
+      />
+      <View
+        style={{
+          flexDirection: "row",
+        }}
+      >
+        <View
+          style={{
+            flexDirection: "row",
+            flex: 0.75,
+          }}
+        >
+          <Text>Name:</Text>
 
-            <Image
-            width={200}
-            height={200}
-            source={{uri: "https://cdn.britannica.com/94/151894-050-F72A5317/Brown-eggs.jpg?w=400&h=300&c=crop"}}
-            />
-            <TextInput
-              defaultValue="Hello"
-              style={{
-    
-                borderColor: "black",
-                borderWidth: 1,
-              }}
-            />
-            <TextInput
-              defaultValue="World"
-              style={{
-                borderColor: "black",
-                borderWidth: 1,
-              }}
-            />
-
-
-        </SafeAreaView>
-        );
+          <TextInput
+            defaultValue="Hello"
+            style={{
+              borderColor: "black",
+              borderWidth: 1,
+              flex: 1,
+            }}
+          />
+        </View>
+      </View>
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: 'white',
-      alignItems: 'center',
-      justifyContent: "space-evenly",
-    },
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+  },
 });
-  

@@ -72,7 +72,7 @@ export function MapScreen(){
 
   // callbacks
   const handleSheetChanges = useCallback((index) => {
-    conshandleSheeole.log('tChanges', index);
+    console.log('tChanges', index);
   }, []);
 
   const triggerDist = 500

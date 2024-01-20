@@ -4,14 +4,17 @@ import { useEffect, useState } from "react";
 import * as Location from 'expo-location'
 
 export function GameScreen({route, navigation}){
-    const { BusStopCode, DistFromUser, TimeBeforeArrival } = route.params;
+    const { BusStopCode, DistFromUser, TimeBeforeArrival, BSLat, BSLon } = route.params;
     const [userLocation, setUserLocation] = useState(null)
 
     useEffect(() => {
-        setInterval(async () => {
+        const intervalID = setInterval(async () => {
             let location = await Location.getCurrentPositionAsync({})
             setUserLocation(location);
-        }, 20000)
+            console.log(location)
+        }, 3000)
+
+        return () => clearInterval(intervalID)
     }, [])
 
 
@@ -26,6 +29,8 @@ export function GameScreen({route, navigation}){
                     <Text>User Lon: {userLocation.coords.longitude}</Text>
                 </View>
             : <></>}
+            <Text>Bus Stop Lat: {BSLat}</Text>
+            <Text>Bus Stop Lon: {BSLon}</Text>
         </SafeAreaView>
     );
 }

@@ -217,6 +217,8 @@ export function MapScreen(){
                                                 style={styles.busArrivalTiming}
                                                 onPress={navigation.navigate("game", {
                                                     "BusStopCode": busStop.BusStopCode,
+                                                    "BSLat": stop.Latitude,
+                                                    "BSLon": stop.Longitude,
                                                     "DistFromUser": stop.distFromUser,
                                                     "TimeBeforeArrival": Math.floor((new Date(stopBuses.NextBus.EstimatedArrival) - new Date()) / (1000 * 60))
                                                 })}
@@ -233,6 +235,8 @@ export function MapScreen(){
                                                 style={styles.busArrivalTiming}
                                                 onPress={navigation.navigate("game", {
                                                     "BusStopCode": busStop.BusStopCode,
+                                                    "BSLat": stop.Latitude,
+                                                    "BSLon": stop.Longitude,
                                                     "DistFromUser": stop.distFromUser,
                                                     "TimeBeforeArrival": Math.floor((new Date(stopBuses.NextBus.EstimatedArrival) - new Date()) / (1000 * 60))
                                                 })}
@@ -250,6 +254,8 @@ export function MapScreen(){
                                                 style={styles.busArrivalTiming}
                                                 onPress={navigation.navigate("game", {
                                                     "BusStopCode": busStop.BusStopCode,
+                                                    "BSLat": stop.Latitude,
+                                                    "BSLon": stop.Longitude,
                                                     "DistFromUser": stop.distFromUser,
                                                     "TimeBeforeArrival": Math.floor((new Date(stopBuses.NextBus.EstimatedArrival) - new Date()) / (1000 * 60))
                                                 })}

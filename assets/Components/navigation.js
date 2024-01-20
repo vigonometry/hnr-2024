@@ -1,5 +1,5 @@
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {DarkTheme, createNativeStackNavigator} from '@react-navigation/native-stack';
 import { HomeScreen } from './homeScreen';
 import { ProfileScreen } from './profile';
 import { CustomHomeHeader } from './Headers/header_home';
@@ -19,10 +19,10 @@ export const RouteHandler = () => {
               name='home'
               component={HomeScreen}
               options={{
-                  headerRight: () => <CustomHomeHeader/>,
-                  headerTransparent: true,
-                  headerTitle: ""
-                  }}/>
+                headerRight: () => <CustomHomeHeader/>,
+                headerTransparent: true,
+                headerTitle: ""
+                }}/>
               <Stack.Screen
               name='profile'
               component={ProfileScreen}
@@ -30,7 +30,11 @@ export const RouteHandler = () => {
 
               <Stack.Screen 
               name='game'
-              component={GameScreen}/>
+              component={GameScreen}
+              options={{
+                headerTransparent: true,
+                headerTitle: "Game"
+                }}/>
             </Stack.Navigator>
           </NavigationContainer>
         </View>

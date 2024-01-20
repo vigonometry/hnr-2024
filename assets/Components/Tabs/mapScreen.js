@@ -50,7 +50,7 @@ export function MapScreen(){
         },
         bottomSheetStops: {
             display: "flex",
-            gap: "10",
+            gap: 10,
             marginLeft: 15,
             marginRight: 15,
         },

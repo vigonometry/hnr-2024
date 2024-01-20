@@ -15,8 +15,10 @@ export function ProfileScreen() {
 
   const [updateProfile, ChangeProfile] = useState(true);
   originalName = "Hello";
+  newName = "";
 
   const changeButton = (newName) => {
+    this.newName = newName;
     if (newName != originalName) {
       ChangeProfile(false);
     } else {
@@ -58,7 +60,9 @@ export function ProfileScreen() {
         </View>
 
       </View>
-      <Button title="Update profile" disabled={updateProfile}/>
+      <Button title="Update profile" disabled={updateProfile} onPress={() => {
+        originalName = this.newName
+      }}/>
     </SafeAreaView>
   );
 }

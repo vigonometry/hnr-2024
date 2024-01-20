@@ -38,7 +38,30 @@ export default function App() {
   }
 
   async function getBusArrivalForNearestStops(busStops) {
-    console.log(busStops)
+    let busArrivalForStops = []
+
+    for (let stopIndex = 0; stopIndex < busStops.length; stopIndex++) {
+      const busStopCode = busStops[stopIndex]["BusStopCode"]
+
+      try {
+        const response = await axios.get(`http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=${busStopCode}`, {
+          headers: {
+            "AccountKey": API_KEY,
+            "Content-Type": "application/json"
+          }
+        })
+
+        const busStopWithArrival = {
+          "BusStopCode": busStopCode,
+          "Services": response.data.Services
+        }
+        busArrivalForStops.push(busArrivalForStops)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    return busArrivalForStops
   }
 
   useEffect(() => {
@@ -79,9 +102,10 @@ export default function App() {
       setNearbyStops(nearestStops)
 
       // Get Bus Arrival Info for Nearest Bus Stops
-      await getBusArrivalForNearestStops(nearestStops)
+      const stopCodeWBusArrival = await getBusArrivalForNearestStops(nearestStops)
+      setNearbyStopsArrival(stopCodeWBusArrival)
     })()
-  })
+  }, [])
 
   return (
     <View style={styles.container}>

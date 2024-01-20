@@ -11,7 +11,8 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Location from 'expo-location'
 import { getDistance } from 'geolib';
-import { API_KEY } from "@env"
+import { API_KEY } from "@env";
+import MapView from 'react-native-maps';
 
 const Tab = createBottomTabNavigator();
 
@@ -206,7 +207,7 @@ const styles = StyleSheet.create({
     },
     bottomSheetStops: {
       display: "flex",
-      gap: "10",
+      gap: 10,
       marginLeft: 15,
       marginRight: 15
     },

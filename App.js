@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Location from 'expo-location'
 import { getDistance } from 'geolib';
 import { API_KEY } from "@env"
+import { RouteHandler } from './assets/Components/navigation';
 
 export default function App() {
   const triggerDist = 500
@@ -69,5 +70,5 @@ export default function App() {
 
   return (
     RouteHandler()
-  );
+  )
 }

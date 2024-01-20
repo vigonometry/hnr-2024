@@ -15,6 +15,7 @@ export function ProfileScreen({navigation}){
             />
             <TextInput
               defaultValue="Hello"
+              st
             />
             <TextInput
               defaultValue="World"

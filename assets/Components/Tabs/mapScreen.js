@@ -2,7 +2,7 @@ import { StatusBar } from "react-native";
 import { Button, StyleSheet, View } from "react-native"
 import { ActivityIndicator, Text, List, useTheme } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetScrollView, TouchableOpacity } from '@gorhom/bottom-sheet';
 import { useRef, useMemo , useCallback, useEffect, useState } from 'react'
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,8 +10,12 @@ import * as Location from 'expo-location'
 import { getDistance } from 'geolib';
 import { API_KEY } from "@env"
 import MapView from 'react-native-maps';
+import { useNavigation } from '@react-navigation/native';
 
 export function MapScreen(){
+
+    const navigation =  useNavigation();
+
     const theme = useTheme()
     const styles = StyleSheet.create({
         container: {
@@ -197,38 +201,41 @@ export function MapScreen(){
                             {nearbyStopsArrival.map(busStop => (
                             busStop.BusStopCode == stop.BusStopCode ?
                                 busStop.Services.map(stopBuses => (
-                                <View key={stopBuses.ServiceNo} style={styles.busStopBus}>
-                                    <Text>{stopBuses.ServiceNo}</Text>
-                                    <View style={styles.busStopArrivals}>
-                                    {stopBuses.NextBus !== null ? 
-                                        <Text style={styles.busArrivalTiming}>
-                                            { 
-                                                Math.floor((new Date(stopBuses.NextBus.EstimatedArrival) - new Date()) / (1000 * 60)) < 0 
-                                                ? "Left!" 
-                                                : Math.floor((new Date(stopBuses.NextBus.EstimatedArrival) - new Date()) / (1000 * 60))
-                                            }
-                                        </Text>
-                                    : <></>}
-                                    {stopBuses.NextBus2 !== null ? 
-                                        <Text style={styles.busArrivalTiming}>
-                                            { 
-                                                Math.floor((new Date(stopBuses.NextBus2.EstimatedArrival) - new Date()) / (1000 * 60)) < 0 
-                                                ? "Left!" 
-                                                : Math.floor((new Date(stopBuses.NextBus2.EstimatedArrival) - new Date()) / (1000 * 60))
-                                            }
-                                        </Text>
+                                  <TouchableOpacity onPress={navigation.navigate("game")}>
+                                        <View key={stopBuses.ServiceNo} style={styles.busStopBus}>
+                                        <Text>{stopBuses.ServiceNo}</Text>
+                                        <View style={styles.busStopArrivals}>
+                                        {stopBuses.NextBus !== null ? 
+                                            <Text style={styles.busArrivalTiming}>
+                                                { 
+                                                    Math.floor((new Date(stopBuses.NextBus.EstimatedArrival) - new Date()) / (1000 * 60)) < 0 
+                                                    ? "Left!" 
+                                                    : Math.floor((new Date(stopBuses.NextBus.EstimatedArrival) - new Date()) / (1000 * 60))
+                                                }
+                                            </Text>
                                         : <></>}
-                                    {stopBuses.NextBus3 !== null ? 
-                                        <Text style={styles.busArrivalTiming}>
-                                            { 
-                                                Math.floor((new Date(stopBuses.NextBus3.EstimatedArrival) - new Date()) / (1000 * 60)) < 0 
-                                                ? "Left!" 
-                                                : Math.floor((new Date(stopBuses.NextBus3.EstimatedArrival) - new Date()) / (1000 * 60))
-                                            }
-                                        </Text>
-                                        : <></>}
+                                        {stopBuses.NextBus2 !== null ? 
+                                            <Text style={styles.busArrivalTiming}>
+                                                { 
+                                                    Math.floor((new Date(stopBuses.NextBus2.EstimatedArrival) - new Date()) / (1000 * 60)) < 0 
+                                                    ? "Left!" 
+                                                    : Math.floor((new Date(stopBuses.NextBus2.EstimatedArrival) - new Date()) / (1000 * 60))
+                                                }
+                                            </Text>
+                                            : <></>}
+                                        {stopBuses.NextBus3 !== null ? 
+                                            <Text style={styles.busArrivalTiming}>
+                                                { 
+                                                    Math.floor((new Date(stopBuses.NextBus3.EstimatedArrival) - new Date()) / (1000 * 60)) < 0 
+                                                    ? "Left!" 
+                                                    : Math.floor((new Date(stopBuses.NextBus3.EstimatedArrival) - new Date()) / (1000 * 60))
+                                                }
+                                            </Text>
+                                            : <></>}
+                                        </View>
                                     </View>
-                                </View>
+                                  </TouchableOpacity>
+                                
                                 ))
                             : <></>
                             ))}

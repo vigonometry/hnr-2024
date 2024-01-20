@@ -5,10 +5,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import BottomSheet, { BottomSheetScrollView, TouchableOpacity } from '@gorhom/bottom-sheet';
 import { useRef, useMemo , useCallback, useEffect, useState } from 'react'
 import axios from 'axios';
+import { API_KEY } from "@env";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Location from 'expo-location'
 import { getDistance } from 'geolib';
-import { API_KEY } from "@env"
 import MapView from 'react-native-maps';
 import { useNavigation } from '@react-navigation/native';
 
@@ -86,6 +86,7 @@ export function MapScreen(){
   async function findNearestBusStops(currentLocation) {
     const data = await AsyncStorage.getItem("BusStops")
     const stops = await JSON.parse(data)
+    
 
     let nearbyStops = []
     for (let i = 0; i < stops.length; i++) {
@@ -110,7 +111,6 @@ export function MapScreen(){
 
     for (let stopIndex = 0; stopIndex < busStops.length; stopIndex++) {
       const busStopCode = busStops[stopIndex]["BusStopCode"]
-
       try {
         const response = await axios.get(`http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=${busStopCode}`, {
           headers: {
@@ -128,15 +128,14 @@ export function MapScreen(){
         console.log(err)
       }
     }
-
     return busArrivalForStops
   }
 
   useEffect(() => {
     (async () => {
       const tempCheck = await AsyncStorage.getItem("BusStops")
-
-      if (tempCheck === null) {
+      
+      if (tempCheck === "[]" || tempCheck === null) {
         let stops = []
         for (let skip = 0; skip < 13; skip++) {
           try {
@@ -147,13 +146,14 @@ export function MapScreen(){
                 "Content-Type": "application/json"
               }
             })
+
             
             stops = stops.concat(response.data.value)
           } catch (err) {
             console.log(err)
           }
         }
-
+        
         await AsyncStorage.setItem("BusStops", JSON.stringify(stops))
       }
       
@@ -168,7 +168,7 @@ export function MapScreen(){
       setUserLocation(location)
 
       // Get List of Nearest Bus Stops
-      const nearestStops = await findNearestBusStops(location)
+      const nearestStops = await findNearestBusStops(userLocation)
       setNearbyStops(nearestStops)
 
       // Get Bus Arrival Info for Nearest Bus Stops
@@ -202,20 +202,22 @@ export function MapScreen(){
                             {nearbyStopsArrival.map(busStop => (
                             busStop.BusStopCode == stop.BusStopCode ?
                                 busStop.Services.map(stopBuses => (
-                                  <TouchableOpacity onPress={navigation.navigate("game")}>
                                         <View key={stopBuses.ServiceNo} style={styles.busStopBus}>
                                         <Text>{stopBuses.ServiceNo}</Text>
                                         <View style={styles.busStopArrivals}>
                                         {stopBuses.NextBus !== null ? 
-                                            <Text style={styles.busArrivalTiming}>
-                                                { 
-                                                    Math.floor((new Date(stopBuses.NextBus.EstimatedArrival) - new Date()) / (1000 * 60)) < 0 
-                                                    ? "Left!" 
-                                                    : Math.floor((new Date(stopBuses.NextBus.EstimatedArrival) - new Date()) / (1000 * 60))
-                                                }
-                                            </Text>
+                                           <TouchableOpacity onPress={() => navigation.navigate("game")}>                             
+                                              <Text style={styles.busArrivalTiming}>
+                                                  { 
+                                                      Math.floor((new Date(stopBuses.NextBus.EstimatedArrival) - new Date()) / (1000 * 60)) < 0 
+                                                      ? "Left!" 
+                                                      : Math.floor((new Date(stopBuses.NextBus.EstimatedArrival) - new Date()) / (1000 * 60))
+                                                  }
+                                              </Text>
+                                            </TouchableOpacity>
                                         : <></>}
                                         {stopBuses.NextBus2 !== null ? 
+                                        <TouchableOpacity onPress={() => navigation.navigate("game")}>                             
                                             <Text style={styles.busArrivalTiming}>
                                                 { 
                                                     Math.floor((new Date(stopBuses.NextBus2.EstimatedArrival) - new Date()) / (1000 * 60)) < 0 
@@ -223,8 +225,10 @@ export function MapScreen(){
                                                     : Math.floor((new Date(stopBuses.NextBus2.EstimatedArrival) - new Date()) / (1000 * 60))
                                                 }
                                             </Text>
+                                          </TouchableOpacity>
                                             : <></>}
                                         {stopBuses.NextBus3 !== null ? 
+                                        <TouchableOpacity onPress={() => navigation.navigate("game")}>                             
                                             <Text style={styles.busArrivalTiming}>
                                                 { 
                                                     Math.floor((new Date(stopBuses.NextBus3.EstimatedArrival) - new Date()) / (1000 * 60)) < 0 
@@ -232,11 +236,10 @@ export function MapScreen(){
                                                     : Math.floor((new Date(stopBuses.NextBus3.EstimatedArrival) - new Date()) / (1000 * 60))
                                                 }
                                             </Text>
+                                          </TouchableOpacity>
                                             : <></>}
                                         </View>
-                                    </View>
-                                  </TouchableOpacity>
-                                
+                                    </View>           
                                 ))
                             : <></>
                             ))}

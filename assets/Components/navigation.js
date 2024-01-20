@@ -32,7 +32,6 @@ export const RouteHandler = () => {
               name='game'
               component={GameScreen}
               options={{
-                headerTransparent: true,
                 headerTitle: "Game"
                 }}/>
             </Stack.Navigator>

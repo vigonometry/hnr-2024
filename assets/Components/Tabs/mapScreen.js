@@ -74,7 +74,6 @@ export function MapScreen(){
   const handleSheetChanges = useCallback((index) => {
     console.log('tChanges', index);
   }, []);
-
   const triggerDist = 500
 
   // States
@@ -165,7 +164,7 @@ export function MapScreen(){
       }
 
         // Get List of Nearest Bus Stops
-        const nearestStops = await findNearestBusStops(location)
+        const nearestStops = await findNearestBusStops(userLocation)
         setNearbyStops(nearestStops)
 
       // Get Bus Arrival Info for Nearest Bus Stops
@@ -210,7 +209,12 @@ export function MapScreen(){
                                         <Text>{stopBuses.ServiceNo}</Text>
                                         <View style={styles.busStopArrivals}>
                                         {stopBuses.NextBus !== null ? 
-                                           <TouchableOpacity onPress={() => navigation.navigate("game")}>                             
+                                           <TouchableOpacity onPress={() => navigation.navigate("game", {
+                                            "BusStopCode": busStop.BusStopCode,
+                                            "BSLat": stop.Latitude,
+                                            "BSLon": stop.Longitude,
+                                            "DistFromUser": stop.distFromUser,
+                                            "TimeBeforeArrival": Math.floor((new Date(stopBuses.NextBus.EstimatedArrival) - new Date()) / (1000 * 60))})}>                             
                                               <Text style={styles.busArrivalTiming}>
                                                   { 
                                                       Math.floor((new Date(stopBuses.NextBus.EstimatedArrival) - new Date()) / (1000 * 60)) < 0 
@@ -221,7 +225,12 @@ export function MapScreen(){
                                             </TouchableOpacity>
                                         : <></>}
                                         {stopBuses.NextBus2 !== null ? 
-                                        <TouchableOpacity onPress={() => navigation.navigate("game")}>                             
+                                        <TouchableOpacity onPress={() => navigation.navigate("game", {
+                                          "BusStopCode": busStop.BusStopCode,
+                                          "BSLat": stop.Latitude,
+                                          "BSLon": stop.Longitude,
+                                          "DistFromUser": stop.distFromUser,
+                                          "TimeBeforeArrival": Math.floor((new Date(stopBuses.NextBus.EstimatedArrival) - new Date()) / (1000 * 60))})}>                             
                                             <Text style={styles.busArrivalTiming}>
                                                 { 
                                                     Math.floor((new Date(stopBuses.NextBus2.EstimatedArrival) - new Date()) / (1000 * 60)) < 0 
@@ -232,7 +241,12 @@ export function MapScreen(){
                                           </TouchableOpacity>
                                             : <></>}
                                         {stopBuses.NextBus3 !== null ? 
-                                        <TouchableOpacity onPress={() => navigation.navigate("game")}>                             
+                                        <TouchableOpacity onPress={() => navigation.navigate("game", {
+                                          "BusStopCode": busStop.BusStopCode,
+                                          "BSLat": stop.Latitude,
+                                          "BSLon": stop.Longitude,
+                                          "DistFromUser": stop.distFromUser,
+                                          "TimeBeforeArrival": Math.floor((new Date(stopBuses.NextBus.EstimatedArrival) - new Date()) / (1000 * 60))})}>                             
                                             <Text style={styles.busArrivalTiming}>
                                                 { 
                                                     Math.floor((new Date(stopBuses.NextBus3.EstimatedArrival) - new Date()) / (1000 * 60)) < 0 

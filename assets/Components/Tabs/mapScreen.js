@@ -72,7 +72,7 @@ export function MapScreen(){
 
   // callbacks
   const handleSheetChanges = useCallback((index) => {
-    console.log('handleSheetChanges', index);
+    conshandleSheeole.log('tChanges', index);
   }, []);
 
   const triggerDist = 500
@@ -102,7 +102,6 @@ export function MapScreen(){
 
     // Sort According to Distance from User
     nearbyStops.sort((a, b) => a.distFromUser - b.distFromUser)
-
     return nearbyStops
   }
 

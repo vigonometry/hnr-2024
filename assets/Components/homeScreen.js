@@ -1,7 +1,8 @@
 import { StatusBar, Button, StyleSheet, View, Text } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import MapView from 'react-native-maps';
+import { MapScreen } from "./Bottom tabs/mapScreen";
+import { SettingsScreen } from "./Bottom tabs/settingsScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -15,23 +16,6 @@ export function HomeScreen({navigation}){
         <StatusBar hidden= {true}/>
         </>
     );
-}
-
-function MapScreen() {
-    return (
-        <SafeAreaView style={styles.container}>
-            <MapView width="100%" height="100%"/>
-        </SafeAreaView>
-    )
-    
-}
-
-function SettingsScreen() {
-  return (
-    <SafeAreaView style={styles.container}>
-        <Text>Some preferences</Text>
-    </SafeAreaView>
-  );
 }
 
 const styles = StyleSheet.create({

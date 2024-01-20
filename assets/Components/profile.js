@@ -1,4 +1,5 @@
 import { Avatar } from "@rneui/base/dist/Avatar/Avatar";
+import { Component } from "react";
 import {
   Button,
   Image,
@@ -11,6 +12,9 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export function ProfileScreen() {
+
+  updateProfile = true;
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar hidden={true} />
@@ -40,9 +44,14 @@ export function ProfileScreen() {
               borderWidth: 1,
               flex: 1,
             }}
+            onChangeText={() => {
+              this.updateProfile = false;
+            }}
           />
         </View>
+
       </View>
+      <Button title="Update profile" disabled={updateProfile}/>
     </SafeAreaView>
   );
 }

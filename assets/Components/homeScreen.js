@@ -1,11 +1,13 @@
+import { StatusBar } from "react-native";
 import { Button, StyleSheet, View } from "react-native"
+import { SafeAreaView } from "react-native-safe-area-context";
 
-function HomeScreen({navigation}){
+export function HomeScreen({navigation}){
     return (
-    <View style={styles.container}>
-        <Button title="Go profile" onPress={() => navigation.navigate("profile")}>
-        </Button>
-    </View>
+        <SafeAreaView style={styles.container}>
+            <StatusBar 
+            hidden= {true}/>
+        </SafeAreaView>
     );
 }
 

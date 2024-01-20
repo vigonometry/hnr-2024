@@ -1,5 +1,5 @@
 import { Avatar } from "@rneui/base/dist/Avatar/Avatar";
-import { Component } from "react";
+import { Component, useEffect, useState } from "react";
 import {
   Button,
   Image,
@@ -13,7 +13,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export function ProfileScreen() {
 
-  updateProfile = true;
+  const [updateProfile, ChangeProfile] = useState(true);
+  originalName = "Hello";
+
+  const changeButton = (newName) => {
+    if (newName != originalName) {
+      ChangeProfile(false);
+    } else {
+      ChangeProfile(true);
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -38,15 +47,13 @@ export function ProfileScreen() {
           <Text>Name:</Text>
 
           <TextInput
-            defaultValue="Hello"
+            defaultValue={this.originalName}
             style={{
               borderColor: "black",
               borderWidth: 1,
               flex: 1,
             }}
-            onChangeText={() => {
-              this.updateProfile = false;
-            }}
+            onChangeText={text => changeButton(text)}
           />
         </View>
 

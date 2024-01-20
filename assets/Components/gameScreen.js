@@ -8,11 +8,16 @@ export function GameScreen({ route, navigation }) {
   const { BusStopCode, DistFromUser, TimeBeforeArrival, BSLat, BSLon } =
     route.params;
   const [userLocation, setUserLocation] = useState(null);
+  const coords = [];
 
   useEffect(() => {
     const intervalID = setInterval(async () => {
       let location = await Location.getCurrentPositionAsync({});
       setUserLocation(location);
+      coords.push({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      });
       console.log(location);
     }, 3000);
 
@@ -37,19 +42,7 @@ export function GameScreen({ route, navigation }) {
           coordinate={{ latitude: BSLat, longitude: BSLon }}
           pinColor="green"
         />
-        {userLocation != null ? (
-          <Polyline
-            coordinates={[
-              {
-                latitude: userLocation.coords.latitude,
-                longitude: userLocation.coords.longitude,
-              },
-              { latitude: BSLat, longitude: BSLon },
-            ]}
-          />
-        ) : (
-          <></>
-        )}
+        {userLocation != null ? <Polyline coordinates={coords} /> : <></>}
       </MapView>
       <Text>Bus Stop to go to: {BusStopCode}</Text>
       <Text>Distance from User: {DistFromUser}m</Text>

@@ -1,5 +1,6 @@
 import { Button, Image, StatusBar, StyleSheet, Text, TextInput, View } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context";
+import MapView from 'react-native-maps';
 
 export function ProfileScreen(){
     return (
@@ -8,7 +9,8 @@ export function ProfileScreen(){
             <StatusBar 
             hidden= {true}/>
 
-            <Image
+            <MapView width="100%" height="100%"/>
+            {/* <Image
             width={200}
             height={200}
             source={{uri: "https://cdn.britannica.com/94/151894-050-F72A5317/Brown-eggs.jpg?w=400&h=300&c=crop"}}
@@ -27,7 +29,7 @@ export function ProfileScreen(){
                 borderColor: "black",
                 borderWidth: 1,
               }}
-            />
+            /> */}
 
 
         </SafeAreaView>

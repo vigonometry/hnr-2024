@@ -1,5 +1,7 @@
 import { Image, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import { useNavigation } from '@react-navigation/native';
+import { Avatar } from "@rneui/base/dist/Avatar/Avatar";
+
 
 export function CustomHomeHeader() {
     
@@ -7,10 +9,11 @@ export function CustomHomeHeader() {
 
     return (
         <TouchableOpacity onPress={() => navigation.navigate("profile")}>
-            <Image 
-            style= {{width: 50, height: 50}}
-            source={{uri: "assets/account.png"}}
-            />
+        <Avatar
+            size={32}
+            rounded
+            source={{ uri: "https://randomuser.me/api/portraits/men/36.jpg" }}
+        />
         </TouchableOpacity>
     )
 }

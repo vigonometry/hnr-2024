@@ -8,7 +8,6 @@ export function HomeScreen({navigation}){
         <SafeAreaView style={styles.container}>
             <StatusBar 
             hidden= {true}/>
-        
             <MapView width="100%" height="100%"/>
         
         </SafeAreaView>

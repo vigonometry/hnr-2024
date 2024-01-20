@@ -15,9 +15,9 @@ export const RouteHandler = () => {
         name='home'
         component={HomeScreen}
         options={{
-            headerRight: () => <CustomHomeHeader/>
+            headerRight: () => <CustomHomeHeader/>,
+            headerTransparent: true
             }}/>
-
         <Stack.Screen
         name='profile'
         component={ProfileScreen}

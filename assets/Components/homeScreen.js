@@ -10,7 +10,7 @@ const Tab = createBottomTabNavigator();
 export function HomeScreen({navigation}){
     return (
         <>
-        <Tab.Navigator>
+        <Tab.Navigator screenOptions={{headerTransparent: true}}>
             <Tab.Screen name="Map" component={MapScreen} options={{tabBarIcon: () => <Image height={20} width={20} source={{uri:"https://cdn-icons-png.flaticon.com/128/447/447031.png"}}/>}}/>
             <Tab.Screen name="Settings" component={SettingsScreen} options={{tabBarIcon: () => <Image height={20} width={20} source={{uri:"https://cdn-icons-png.flaticon.com/128/484/484613.png"}}/>}}/>
         </Tab.Navigator>

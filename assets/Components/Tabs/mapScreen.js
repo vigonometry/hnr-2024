@@ -212,7 +212,7 @@ export function MapScreen(){
                                     <View key={stopBuses.ServiceNo} style={styles.busStopBus}>
                                         <Text>{stopBuses.ServiceNo}</Text>
                                         <View style={styles.busStopArrivals}>
-                                            {stopBuses.NextBus !== null ? 
+                                            {stopBuses.NextBus.DestinationCode !== "" ? // NextBus is never null; instead each property will be an empty string
                                                 <Text 
                                                 style={styles.busArrivalTiming}
                                                 onPress={navigation.navigate("game", {
@@ -228,7 +228,7 @@ export function MapScreen(){
                                                     }
                                                 </Text>
                                             : <></>}
-                                            {stopBuses.NextBus2 !== null ? 
+                                            {stopBuses.NextBus2.DestinationCode !== "" ? 
                                                 <Text 
                                                 style={styles.busArrivalTiming}
                                                 onPress={navigation.navigate("game", {
@@ -245,7 +245,7 @@ export function MapScreen(){
                                                 </Text>
                                             : <></>}
 
-                                            {stopBuses.NextBus3 !== null ? 
+                                            {stopBuses.NextBus3.DestinationCode !== "" ? 
                                                 <Text 
                                                 style={styles.busArrivalTiming}
                                                 onPress={navigation.navigate("game", {

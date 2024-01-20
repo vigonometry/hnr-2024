@@ -2,6 +2,7 @@ import { StatusBar } from "react-native";
 import { Button, StyleSheet, View } from "react-native"
 import { ActivityIndicator, Text, List } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MapView from 'react-native-maps';
 import BottomSheet from '@gorhom/bottom-sheet';
 import { useRef, useMemo , useCallback, useEffect, useState } from 'react'
@@ -10,6 +11,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Location from 'expo-location'
 import { getDistance } from 'geolib';
 import { API_KEY } from "@env"
+
+const Tab = createBottomTabNavigator();
 
 export function HomeScreen({navigation}){
   const bottomSheetRef = useRef(null);

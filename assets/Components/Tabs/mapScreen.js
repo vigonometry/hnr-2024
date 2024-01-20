@@ -50,7 +50,7 @@ export function MapScreen(){
         },
         bottomSheetStops: {
             display: "flex",
-            gap: "10",
+            gap: 10,
             marginLeft: 15,
             marginRight: 15,
         },
@@ -131,7 +131,9 @@ export function MapScreen(){
 
   useEffect(() => {
     (async () => {
-      if (AsyncStorage.getItem("BusStops") === null) {
+      const tempCheck = await AsyncStorage.getItem("BusStops")
+
+      if (tempCheck === null) {
         let stops = []
         for (let skip = 0; skip < 13; skip++) {
           try {
@@ -171,7 +173,7 @@ export function MapScreen(){
       setNearbyStopsArrival(stopCodeWBusArrival)
     })()
   }, [])
-  
+
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar 

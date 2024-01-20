@@ -134,47 +134,54 @@ export function MapScreen(){
 
   useEffect(() => {
     (async () => {
-      const tempCheck = await AsyncStorage.getItem("BusStops")
+        const tempCheck = await AsyncStorage.getItem("BusStops")
 
-      if (tempCheck === null) {
-        let stops = []
-        for (let skip = 0; skip < 13; skip++) {
-          try {
-            // Get List of Bus Stops
-            const response = await axios.get(`http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip=${skip*500}`, {
-              headers: {
-                "AccountKey": API_KEY,
-                "Content-Type": "application/json"
-              }
-            })
-            
-            stops = stops.concat(response.data.value)
-          } catch (err) {
-            console.log(err)
-          }
+        if (tempCheck === null) {
+            let stops = []
+            for (let skip = 0; skip < 13; skip++) {
+            try {
+                // Get List of Bus Stops
+                const response = await axios.get(`http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip=${skip*500}`, {
+                headers: {
+                    "AccountKey": API_KEY,
+                    "Content-Type": "application/json"
+                }
+                })
+                
+                stops = stops.concat(response.data.value)
+            } catch (err) {
+                console.log(err)
+            }
+            }
+
+            await AsyncStorage.setItem("BusStops", JSON.stringify(stops))
+        }
+        
+        // Get User's Location
+        let { status } = await Location.requestForegroundPermissionsAsync()
+        if (status !== 'granted') {
+            setErrorMsg('Permission to access location was denied')
+            return;
         }
 
-        await AsyncStorage.setItem("BusStops", JSON.stringify(stops))
-      }
-      
-      // Get User's Location
-      let { status } = await Location.requestForegroundPermissionsAsync()
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied')
-        return;
-      }
+            let location = await Location.getCurrentPositionAsync({})
+            setUserLocation(location);
 
-      let location = await Location.getCurrentPositionAsync({})
-      setUserLocation(location)
+        // Get List of Nearest Bus Stops
+        const nearestStops = await findNearestBusStops(location)
+        setNearbyStops(nearestStops)
 
-      // Get List of Nearest Bus Stops
-      const nearestStops = await findNearestBusStops(location)
-      setNearbyStops(nearestStops)
-
-      // Get Bus Arrival Info for Nearest Bus Stops
-      const stopCodeWBusArrival = await getBusArrivalForNearestStops(nearestStops)
-      setNearbyStopsArrival(stopCodeWBusArrival)
+        // Get Bus Arrival Info for Nearest Bus Stops
+        const stopCodeWBusArrival = await getBusArrivalForNearestStops(nearestStops)
+        setNearbyStopsArrival(stopCodeWBusArrival)
     })()
+  }, [])
+
+  useEffect(() => {
+    setInterval(async () => {
+        let location = await Location.getCurrentPositionAsync({})
+        setUserLocation(location);
+      }, 20000)
   }, [])
 
     return (
@@ -202,41 +209,60 @@ export function MapScreen(){
                             {nearbyStopsArrival.map(busStop => (
                             busStop.BusStopCode == stop.BusStopCode ?
                                 busStop.Services.map(stopBuses => (
-                                  <TouchableOpacity onPress={navigation.navigate("game")}>
-                                        <View key={stopBuses.ServiceNo} style={styles.busStopBus}>
+                                    <View key={stopBuses.ServiceNo} style={styles.busStopBus}>
                                         <Text>{stopBuses.ServiceNo}</Text>
                                         <View style={styles.busStopArrivals}>
-                                        {stopBuses.NextBus !== null ? 
-                                            <Text style={styles.busArrivalTiming}>
-                                                { 
-                                                    Math.floor((new Date(stopBuses.NextBus.EstimatedArrival) - new Date()) / (1000 * 60)) < 0 
-                                                    ? "Left!" 
-                                                    : Math.floor((new Date(stopBuses.NextBus.EstimatedArrival) - new Date()) / (1000 * 60))
-                                                }
-                                            </Text>
-                                        : <></>}
-                                        {stopBuses.NextBus2 !== null ? 
-                                            <Text style={styles.busArrivalTiming}>
-                                                { 
-                                                    Math.floor((new Date(stopBuses.NextBus2.EstimatedArrival) - new Date()) / (1000 * 60)) < 0 
-                                                    ? "Left!" 
-                                                    : Math.floor((new Date(stopBuses.NextBus2.EstimatedArrival) - new Date()) / (1000 * 60))
-                                                }
-                                            </Text>
+                                            {stopBuses.NextBus !== null ? 
+                                                <Text 
+                                                style={styles.busArrivalTiming}
+                                                onPress={navigation.navigate("game", {
+                                                    "BusStopCode": busStop.BusStopCode,
+                                                    "DistFromUser": stop.distFromUser,
+                                                    "TimeBeforeArrival": Math.floor((new Date(stopBuses.NextBus.EstimatedArrival) - new Date()) / (1000 * 60))
+                                                })}
+                                                >
+                                                    { 
+                                                        Math.floor((new Date(stopBuses.NextBus.EstimatedArrival) - new Date()) / (1000 * 60)) < 0 
+                                                        ? "Left!" 
+                                                        : Math.floor((new Date(stopBuses.NextBus.EstimatedArrival) - new Date()) / (1000 * 60))
+                                                    }
+                                                </Text>
                                             : <></>}
-                                        {stopBuses.NextBus3 !== null ? 
-                                            <Text style={styles.busArrivalTiming}>
-                                                { 
-                                                    Math.floor((new Date(stopBuses.NextBus3.EstimatedArrival) - new Date()) / (1000 * 60)) < 0 
-                                                    ? "Left!" 
-                                                    : Math.floor((new Date(stopBuses.NextBus3.EstimatedArrival) - new Date()) / (1000 * 60))
-                                                }
-                                            </Text>
+                                            {stopBuses.NextBus2 !== null ? 
+                                                <Text 
+                                                style={styles.busArrivalTiming}
+                                                onPress={navigation.navigate("game", {
+                                                    "BusStopCode": busStop.BusStopCode,
+                                                    "DistFromUser": stop.distFromUser,
+                                                    "TimeBeforeArrival": Math.floor((new Date(stopBuses.NextBus.EstimatedArrival) - new Date()) / (1000 * 60))
+                                                })}
+                                                >
+                                                    { 
+                                                        Math.floor((new Date(stopBuses.NextBus2.EstimatedArrival) - new Date()) / (1000 * 60)) < 0 
+                                                        ? "Left!" 
+                                                        : Math.floor((new Date(stopBuses.NextBus2.EstimatedArrival) - new Date()) / (1000 * 60))
+                                                    }
+                                                </Text>
+                                            : <></>}
+
+                                            {stopBuses.NextBus3 !== null ? 
+                                                <Text 
+                                                style={styles.busArrivalTiming}
+                                                onPress={navigation.navigate("game", {
+                                                    "BusStopCode": busStop.BusStopCode,
+                                                    "DistFromUser": stop.distFromUser,
+                                                    "TimeBeforeArrival": Math.floor((new Date(stopBuses.NextBus.EstimatedArrival) - new Date()) / (1000 * 60))
+                                                })}
+                                                >
+                                                    { 
+                                                        Math.floor((new Date(stopBuses.NextBus3.EstimatedArrival) - new Date()) / (1000 * 60)) < 0 
+                                                        ? "Left!" 
+                                                        : Math.floor((new Date(stopBuses.NextBus3.EstimatedArrival) - new Date()) / (1000 * 60))
+                                                    }
+                                                </Text>
                                             : <></>}
                                         </View>
-                                    </View>
-                                  </TouchableOpacity>
-                                
+                                    </View>                                
                                 ))
                             : <></>
                             ))}

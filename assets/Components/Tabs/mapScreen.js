@@ -184,7 +184,7 @@ export function MapScreen() {
 
       // Get List of Nearest Bus Stops
       console.log("Getting Nearest Stops")
-      const nearestStops = await findNearestBusStops(lastLoc);
+      const nearestStops = await findNearestBusStops(userLocation);
       setNearbyStops(nearestStops);
 
       // Get Bus Arrival Info for Nearest Bus Stops
@@ -193,6 +193,9 @@ export function MapScreen() {
         nearestStops
       );
       setNearbyStopsArrival(stopCodeWBusArrival);
+
+      console.log(nearestStops)
+      console.log(stopCodeWBusArrival)
     })();
   }, []);
 

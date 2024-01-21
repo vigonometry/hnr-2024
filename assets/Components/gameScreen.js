@@ -129,6 +129,7 @@ export function GameScreen({ route, navigation }) {
           <></>
         )}
         <Marker
+          onPress={toggleOverlay}
           coordinate={{ latitude: BSLat, longitude: BSLon }}
           pinColor="green"
         />

@@ -83,7 +83,7 @@ export function MapScreen() {
   const [errorMsg, setErrorMsg] = useState(null);
   const [nearbyStops, setNearbyStops] = useState(null);
   const [nearbyStopsArrival, setNearbyStopsArrival] = useState(null);
-  console.log("a")
+  console.log("sas")
   async function findNearestBusStops(currentLocation) {
     const data = await AsyncStorage.getItem("BusStops");
     const stops = await JSON.parse(data);

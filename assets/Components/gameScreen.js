@@ -7,6 +7,7 @@ import axios from "axios";
 import { API_KEY } from "@env";
 import { Overlay } from "@rneui/themed";
 import Timer from "./Timer/timer";
+import BackgroundTimer from 'react-native-background-timer';
 
 export function GameScreen({ route, navigation }) {
   const {
@@ -22,10 +23,13 @@ export function GameScreen({ route, navigation }) {
   const [updatedBusArrival, setUpdatedBusArrival] = useState(TimeBeforeArrival);
   const [busIndex, setBusIndex] = useState(ServiceIndex);
   const coords = [];
-  const [overlayVisible, changeOverlayVisibility] = useState(true);
+  var [overlayVisible, changeOverlayVisibility] = useState(true);
+  const [timeLeft, reduceTime] = useState(90000)
 
   const toggleOverlay = () => {
+    console.log("Before: " + overlayVisible)
     changeOverlayVisibility(!overlayVisible);
+    console.log("After: " + overlayVisible)
   };
 
   useEffect(() => {
@@ -116,6 +120,25 @@ export function GameScreen({ route, navigation }) {
 
   return (
     <SafeAreaView>
+      <View>
+        <Overlay isVisible={overlayVisible} onBackdropPress={toggleOverlay}>
+          <Text>Bus Stop to go to: {BusStopCode}</Text>
+          <Text>Distance from User: {DistFromUser}m</Text>
+          <Text>Time Remaining before Bus Arrival: {updatedBusArrival}</Text>
+          {userLocation !== null ? (
+            <View>
+              <Text>User Lat: {userLocation.coords.latitude}</Text>
+              <Text>User Lon: {userLocation.coords.longitude}</Text>
+            </View>
+          ) : (
+            <></>
+          )}
+          <Text>Bus Stop Lat: {BSLat}</Text>
+          <Text>Bus Stop Lon: {BSLon}</Text>
+          <Timer/>
+          <Button title="Close" onPress={() => toggleOverlay()}/>
+        </Overlay>
+      </View>
       <MapView width="100%" height="100%" showsUserLocation>
         {userLocation != null ? (
           <Marker
@@ -135,26 +158,6 @@ export function GameScreen({ route, navigation }) {
         />
         {userLocation != null ? <Polyline coordinates={coords} /> : <></>}
       </MapView>
-
-      <View>
-        <Overlay isVisible={overlayVisible} onBackdropPress={toggleOverlay}>
-          <Text>Bus Stop to go to: {BusStopCode}</Text>
-          <Text>Distance from User: {DistFromUser}m</Text>
-          <Text>Time Remaining before Bus Arrival: {updatedBusArrival}</Text>
-          {userLocation !== null ? (
-            <View>
-              <Text>User Lat: {userLocation.coords.latitude}</Text>
-              <Text>User Lon: {userLocation.coords.longitude}</Text>
-            </View>
-          ) : (
-            <></>
-          )}
-          <Text>Bus Stop Lat: {BSLat}</Text>
-          <Text>Bus Stop Lon: {BSLon}</Text>
-          <Timer/>
-        </Overlay>
-      </View>
-
     </SafeAreaView>
   );
 }

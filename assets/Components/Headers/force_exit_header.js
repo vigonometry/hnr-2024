@@ -4,10 +4,10 @@ import { useNavigation } from '@react-navigation/native';
 
 export function ForceExitHeader() {
     
-    const navigation =  useNavigation();
+    const navigation = useNavigation();
 
     return (
-        <View>
+        <View style={{zIndex: 5}}>
             <Button  title="Home" onPress={() => navigation.navigate("home")}/>
         </View>
     )

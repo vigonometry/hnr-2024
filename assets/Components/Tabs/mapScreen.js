@@ -70,7 +70,7 @@ export function MapScreen() {
   });
   const bottomSheetRef = useRef(null);
 
-  const snapPoints = useMemo(() => ["25%", "75%"], []);
+  const snapPoints = useMemo(() => ["25%", "60%"], []);
 
   // callbacks
   const handleSheetChanges = useCallback((index) => {
@@ -83,13 +83,14 @@ export function MapScreen() {
   const [errorMsg, setErrorMsg] = useState(null);
   const [nearbyStops, setNearbyStops] = useState(null);
   const [nearbyStopsArrival, setNearbyStopsArrival] = useState(null);
-  console.log("aaa")
   async function findNearestBusStops(currentLocation) {
     const data = await AsyncStorage.getItem("BusStops");
     const stops = await JSON.parse(data);
 
     let nearbyStops = [];
+    console.log("T1")
     for (let i = 0; i < stops.length; i++) {
+      console.log(i)
       const dist = getDistance(
         {
           latitude: currentLocation.coords.latitude,
@@ -103,6 +104,7 @@ export function MapScreen() {
         nearbyStops.push(updatedStop);
       }
     }
+    console.log("T2")
 
     // Sort According to Distance from User
     nearbyStops.sort((a, b) => a.distFromUser - b.distFromUser);
@@ -207,7 +209,23 @@ export function MapScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar hidden={true} />
-      <MapView width="100%" height="100%" showsUserLocation/>
+      <MapView width="100%" height="100%" showsUserLocation>
+        {nearbyStops !== null ?
+          nearbyStops.map((stop) => (
+            <Marker
+              coordinate={{
+                latitude: stop.Latitude,
+                longitude: stop.Longitude,
+              }}
+              title={stop.Description}
+              description={`${(
+                stop.distFromUser / 1000
+              ).toFixed(2)} km`}
+              pinColor="red"
+            />
+          ))
+        : <></>}
+      </MapView>
       <BottomSheet
         ref={bottomSheetRef}
         index={1}
@@ -288,7 +306,7 @@ export function MapScreen() {
                                       DistFromUser: stop.distFromUser,
                                       TimeBeforeArrival: Math.floor(
                                         (new Date(
-                                          stopBuses.NextBus.EstimatedArrival
+                                          stopBuses.NextBus2.EstimatedArrival
                                         ) -
                                           new Date()) /
                                           (1000 * 60)
@@ -329,7 +347,7 @@ export function MapScreen() {
                                       DistFromUser: stop.distFromUser,
                                       TimeBeforeArrival: Math.floor(
                                         (new Date(
-                                          stopBuses.NextBus.EstimatedArrival
+                                          stopBuses.NextBus3.EstimatedArrival
                                         ) -
                                           new Date()) /
                                           (1000 * 60)

@@ -14,13 +14,13 @@ export default class Timer extends React.Component {
     let color = this.state.time > 60 ? "black" : "red"
     if (this.state.time < 0) {
       return (
-        <View>
+        <View style={{borderColor: "red", borderWidth: 2}}>
           <Text variant="displayLarge" style={{color:"red"}}>MISSED 💀</Text>
         </View>
       )
     }
     return (
-      <View>
+      <View style={{borderColor: "black", borderWidth: 2}}>
         {this.state.time >= 0 && this.state.time <= 300 ? <Text variant="displayLarge" style={{color: color}}>{this.state.time}s</Text> : <Text variant="displayLarge" style={{color: color}}>{Math.floor(this.state.time / 60)}min</Text>}
         {this.state.time <= 120 ? <Text variant="displayLarge" style={{color: color, justifyContent: "center"}}>RUN 🏃</Text> : <Text variant="headlineMedium">You 'still have' time... Chill.... 🥱</Text>}
       </View>

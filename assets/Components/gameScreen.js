@@ -21,7 +21,7 @@ export function GameScreen({ route, navigation }) {
   const [userLocation, setUserLocation] = useState(null);
   const [updatedBusArrival, setUpdatedBusArrival] = useState(TimeBeforeArrival);
   const [busIndex, setBusIndex] = useState(ServiceIndex);
-  const coords = [];
+  const [coords, setCoords] = useState([])
   var [overlayVisible, changeOverlayVisibility] = useState(true);
   const [timeLeft, reduceTime] = useState(90000)
 
@@ -32,14 +32,26 @@ export function GameScreen({ route, navigation }) {
   };
 
   useEffect(() => {
+    console.log(coords.length)
+  }, [coords])
+
+  // Update Coords
+  useEffect(() => {
     const intervalID = setInterval(async () => {
-      let location = await Location.getCurrentPositionAsync({});
+      let location = await Location.getLastKnownPositionAsync({});
       setUserLocation(location);
-      coords.push({
+      setCoords(prevVal => [...prevVal, {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
-      });
+      }])
+    }, 800);
 
+    return () => clearInterval(intervalID);
+  }, []);
+
+  // Update Bus Timing
+  useEffect(() => {
+    const intervalID = setInterval(async () => {
       try {
         const response = await axios.get(
           `http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=${BusStopCode}`,
@@ -110,31 +122,30 @@ export function GameScreen({ route, navigation }) {
       } catch (err) {
         console.log(err);
       }
-
-      console.log(location);
-    }, 3000);
+    }, 30000)
 
     return () => clearInterval(intervalID);
-  }, []);
+  }, [])
 
   return (
     <SafeAreaView>
       <View>
         <Overlay isVisible={overlayVisible} onBackdropPress={toggleOverlay}>
           <Text>Bus Stop to go to: {BusStopCode}</Text>
-          <Text>Distance from User: {DistFromUser}m</Text>
-          <Text>Time Remaining before Bus Arrival: {updatedBusArrival}</Text>
-          {userLocation !== null ? (
+          <Text style={styles.marginBtm}>Distance from You: {DistFromUser}m</Text>
+
+          <Text>Time Remaining before Bus Arrival: {updatedBusArrival}mins</Text>
+          {/* {userLocation !== null ? (
             <View>
               <Text>User Lat: {userLocation.coords.latitude}</Text>
               <Text>User Lon: {userLocation.coords.longitude}</Text>
             </View>
           ) : (
             <></>
-          )}
+          )} */}
           <Text>Bus Stop Lat: {BSLat}</Text>
-          <Text>Bus Stop Lon: {BSLon}</Text>
-          <Timer/>
+          <Text style={styles.marginBtmL}>Bus Stop Lon: {BSLon}</Text>
+          <Timer time={updatedBusArrival * 60} />
           <Button title="Close" onPress={() => toggleOverlay()}/>
         </Overlay>
       </View>
@@ -168,4 +179,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  marginBtm: {
+    marginBottom: 10
+  },
+  marginBtmL: {
+    marginBottom: 30
+  }
 });

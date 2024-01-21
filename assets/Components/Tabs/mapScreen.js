@@ -183,6 +183,9 @@ export function MapScreen() {
         nearestStops
       );
       setNearbyStopsArrival(stopCodeWBusArrival);
+
+      console.log(nearestStops)
+      console.log(stopCodeWBusArrival)
     })();
   }, []);
 
@@ -229,6 +232,8 @@ export function MapScreen() {
                                   onPress={() =>
                                     navigation.navigate("game", {
                                       BusStopCode: busStop.BusStopCode,
+                                      BusService: stopBuses.ServiceNo,
+                                      ServiceIndex: 1,
                                       BSLat: stop.Latitude,
                                       BSLon: stop.Longitude,
                                       DistFromUser: stop.distFromUser,
@@ -268,6 +273,8 @@ export function MapScreen() {
                                   onPress={() =>
                                     navigation.navigate("game", {
                                       BusStopCode: busStop.BusStopCode,
+                                      BusService: stopBuses.ServiceNo,
+                                      ServiceIndex: 2,
                                       BSLat: stop.Latitude,
                                       BSLon: stop.Longitude,
                                       DistFromUser: stop.distFromUser,
@@ -307,6 +314,8 @@ export function MapScreen() {
                                   onPress={() =>
                                     navigation.navigate("game", {
                                       BusStopCode: busStop.BusStopCode,
+                                      BusService: stopBuses.ServiceNo,
+                                      ServiceIndex: 3,
                                       BSLat: stop.Latitude,
                                       BSLon: stop.Longitude,
                                       DistFromUser: stop.distFromUser,

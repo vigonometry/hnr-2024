@@ -1,10 +1,12 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
 import * as Location from "expo-location";
 import MapView, { Marker, Polyline } from "react-native-maps";
 import axios from "axios";
 import { API_KEY } from "@env"
+import { Overlay } from '@rneui/themed';
+import { TouchableOpacity } from "@gorhom/bottom-sheet";
 
 export function GameScreen({ route, navigation }) {
   const { BusStopCode, BusService, ServiceIndex, DistFromUser, TimeBeforeArrival, BSLat, BSLon } =
@@ -13,6 +15,11 @@ export function GameScreen({ route, navigation }) {
   const [updatedBusArrival, setUpdatedBusArrival] = useState(TimeBeforeArrival)
   const [busIndex, setBusIndex] = useState(ServiceIndex)
   const coords = [];
+  const [overlayVisible, changeOverlayVisibility] = useState(true);
+
+  const toggleOverlay = () => {
+    changeOverlayVisibility(!overlayVisible);
+  };
 
   useEffect(() => {
     const intervalID = setInterval(async () => {
@@ -126,6 +133,14 @@ export function GameScreen({ route, navigation }) {
         />
         {userLocation != null ? <Polyline coordinates={coords} /> : <></>}
       </MapView>
+
+      <View>
+    <Button
+      title="Open Overlay"
+      onPress={toggleOverlay}
+      buttonStyle={styles.button}
+    />
+    <Overlay isVisible={overlayVisible} onBackdropPress={toggleOverlay}>
       <Text>Bus Stop to go to: {BusStopCode}</Text>
       <Text>Distance from User: {DistFromUser}m</Text>
       <Text>Time Remaining before Bus Arrival: {updatedBusArrival}</Text>
@@ -139,6 +154,10 @@ export function GameScreen({ route, navigation }) {
       )}
       <Text>Bus Stop Lat: {BSLat}</Text>
       <Text>Bus Stop Lon: {BSLon}</Text>
+      </Overlay>
+  </View>
+
+
     </SafeAreaView>
   );
 }

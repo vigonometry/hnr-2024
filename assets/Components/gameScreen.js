@@ -146,7 +146,9 @@ export function GameScreen({ route, navigation }) {
           <Text>Bus Stop Lat: {BSLat}</Text>
           <Text style={styles.marginBtmL}>Bus Stop Lon: {BSLon}</Text>
           <Timer time={updatedBusArrival * 60} />
-          <Button title="Close" onPress={() => toggleOverlay()}/>
+          <View style={{top: 3}}>
+            <Button title="Close" onPress={() => toggleOverlay()}/>
+          </View>
         </Overlay>
       </View>
       <MapView width="100%" height="100%" showsUserLocation>

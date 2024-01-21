@@ -7,6 +7,7 @@ import axios from "axios";
 import { API_KEY } from "@env";
 import { Overlay } from "@rneui/themed";
 import { TouchableOpacity } from "@gorhom/bottom-sheet";
+import Timer from "./Timer/timer";
 
 export function GameScreen({ route, navigation }) {
   const {
@@ -151,8 +152,10 @@ export function GameScreen({ route, navigation }) {
           )}
           <Text>Bus Stop Lat: {BSLat}</Text>
           <Text>Bus Stop Lon: {BSLon}</Text>
+          <Timer/>
         </Overlay>
       </View>
+
     </SafeAreaView>
   );
 }

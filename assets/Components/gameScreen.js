@@ -6,7 +6,6 @@ import MapView, { Marker, Polyline } from "react-native-maps";
 import axios from "axios";
 import { API_KEY } from "@env";
 import { Overlay } from "@rneui/themed";
-import { TouchableOpacity } from "@gorhom/bottom-sheet";
 import Timer from "./Timer/timer";
 
 export function GameScreen({ route, navigation }) {

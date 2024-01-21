@@ -7,7 +7,6 @@ import axios from "axios";
 import { API_KEY } from "@env";
 import { Overlay } from "@rneui/themed";
 import Timer from "./Timer/timer";
-import BackgroundTimer from 'react-native-background-timer';
 
 export function GameScreen({ route, navigation }) {
   const {

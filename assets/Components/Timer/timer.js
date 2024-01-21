@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-// import BackgroundTimer from 'react-native-background-timer';
 
 export default class Timer extends React.Component {
 

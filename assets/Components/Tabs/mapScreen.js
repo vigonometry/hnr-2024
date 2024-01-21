@@ -167,18 +167,26 @@ export function MapScreen() {
         await AsyncStorage.setItem("BusStops", JSON.stringify(stops));
       }
 
-      // Get User's Location
+      // Ask for User's Location
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         setErrorMsg("Permission to access location was denied");
         return;
       }
 
+      // Get User Location
+      console.log("Getting LK Location...")
+      let lastLoc = await Location.getLastKnownPositionAsync();
+      setUserLocation(lastLoc);
+      console.log("LK Location Retrieved.")
+
       // Get List of Nearest Bus Stops
+      console.log("Getting Nearest Stops")
       const nearestStops = await findNearestBusStops(userLocation);
       setNearbyStops(nearestStops);
 
       // Get Bus Arrival Info for Nearest Bus Stops
+      console.log("Getting Nearest Stops with Bus Arrivals")
       const stopCodeWBusArrival = await getBusArrivalForNearestStops(
         nearestStops
       );
@@ -193,7 +201,7 @@ export function MapScreen() {
     setInterval(async () => {
       let location = await Location.getCurrentPositionAsync({});
       setUserLocation(location);
-    }, 20000);
+    }, 10000);
   }, []);
 
   return (

@@ -10,7 +10,7 @@ export default class Timer extends React.Component {
     render() {
     return (
         <View>
-        <Text>{this.state.time}</Text>
+            <Text>{this.state.time}</Text>
         </View>
     );
     }

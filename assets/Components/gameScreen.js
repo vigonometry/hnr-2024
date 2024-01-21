@@ -44,19 +44,21 @@ export function GameScreen({ route, navigation }) {
         />
         {userLocation != null ? <Polyline coordinates={coords} /> : <></>}
       </MapView>
-      <Text>Bus Stop to go to: {BusStopCode}</Text>
-      <Text>Distance from User: {DistFromUser}m</Text>
-      <Text>Time Remaining before Bus Arrival: {TimeBeforeArrival}</Text>
-      {userLocation !== null ? (
-        <View>
-          <Text>User Lat: {userLocation.coords.latitude}</Text>
-          <Text>User Lon: {userLocation.coords.longitude}</Text>
-        </View>
-      ) : (
-        <></>
-      )}
-      <Text>Bus Stop Lat: {BSLat}</Text>
-      <Text>Bus Stop Lon: {BSLon}</Text>
+      <View>
+        <Text>Bus Stop to go to: {BusStopCode}</Text>
+        <Text>Distance from User: {DistFromUser}m</Text>
+        <Text>Time Remaining before Bus Arrival: {TimeBeforeArrival}</Text>
+        {userLocation !== null ? (
+          <View>
+            <Text>User Lat: {userLocation.coords.latitude}</Text>
+            <Text>User Lon: {userLocation.coords.longitude}</Text>
+          </View>
+        ) : (
+          <></>
+        )}
+        <Text>Bus Stop Lat: {BSLat}</Text>
+        <Text>Bus Stop Lon: {BSLon}</Text>
+      </View>
     </SafeAreaView>
   );
 }
@@ -69,3 +71,4 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+

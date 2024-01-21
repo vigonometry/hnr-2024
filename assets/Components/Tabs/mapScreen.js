@@ -196,8 +196,7 @@ export function MapScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar hidden={true} />
-
-      <MapView width="100%" height="100%" showsUserLocation />
+      <MapView width="100%" height="100%" showsUserLocation/>
       <BottomSheet
         ref={bottomSheetRef}
         index={1}

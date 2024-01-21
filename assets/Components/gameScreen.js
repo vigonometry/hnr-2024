@@ -22,7 +22,7 @@ export function GameScreen({ route, navigation }) {
   const [userLocation, setUserLocation] = useState(null);
   const [updatedBusArrival, setUpdatedBusArrival] = useState(TimeBeforeArrival);
   const [busIndex, setBusIndex] = useState(ServiceIndex);
-  const [coords, setCoords] = useState([])
+  const coords = [];
   var [overlayVisible, changeOverlayVisibility] = useState(true);
   const [timeLeft, reduceTime] = useState(90000)
 
@@ -33,26 +33,14 @@ export function GameScreen({ route, navigation }) {
   };
 
   useEffect(() => {
-    console.log(coords.length)
-  }, [coords])
-
-  // Update Coords
-  useEffect(() => {
     const intervalID = setInterval(async () => {
-      let location = await Location.getLastKnownPositionAsync({});
+      let location = await Location.getCurrentPositionAsync({});
       setUserLocation(location);
-      setCoords(prevVal => [...prevVal, {
+      coords.push({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
-      }])
-    }, 800);
+      });
 
-    return () => clearInterval(intervalID);
-  }, []);
-
-  // Update Bus Timing
-  useEffect(() => {
-    const intervalID = setInterval(async () => {
       try {
         const response = await axios.get(
           `http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=${BusStopCode}`,
@@ -123,10 +111,12 @@ export function GameScreen({ route, navigation }) {
       } catch (err) {
         console.log(err);
       }
-    }, 30000)
+
+      console.log(location);
+    }, 3000);
 
     return () => clearInterval(intervalID);
-  }, [])
+  }, []);
 
   return (
     <SafeAreaView>
